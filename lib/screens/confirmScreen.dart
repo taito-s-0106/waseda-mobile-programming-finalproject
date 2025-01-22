@@ -1,7 +1,5 @@
-import 'package:finalproject/main.dart';
+import 'package:finalproject/dao/csvFileDao.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import "dart:io";
 
 class ConfirmScreen extends StatelessWidget {
   final String textPassedDate;
@@ -12,6 +10,9 @@ class ConfirmScreen extends StatelessWidget {
       required this.textPassedDate,
       required this.textPassedCategory,
       required this.textPassedPrice});
+
+  String get data => "$textPassedDate,$textPassedCategory,$textPassedPrice";
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,42 +65,11 @@ class ConfirmScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: (){
-            _writeToCsv(context);
-            Navigator.push(
-              context, 
-              MaterialPageRoute(builder: (context){
-              return MyApp();
-            },
-            ),
-            );
+            FileDao.writeToCsv(data);
+            Navigator.of(context).popUntil((route) => route.isFirst);
           },
           label: const Text("登録") ,
     ),
     );
-  }
-
-  Future<void> _writeToCsv(BuildContext context) async{
-    
-    String data = "$textPassedDate,$textPassedCategory,$textPassedPrice";
-    // final directory = await getApplicationDocumentsDirectory();
-    // final filePath = "${directory.path}/houseHoldAccount.csv";
-
-    try{
-    final file = File("/Users/taito/waseda2024/finalproject/lib/resources/houseHoldAccount.csv");
-
-    if(await file.exists()){
-      final existingContent = await file.readAsString();
-      if(existingContent.isNotEmpty && !existingContent.endsWith("\n")){
-        data = "\n$data";
-      }
-    }else{
-      await file.create(recursive: true);
-    }
-
-    await file.writeAsString(data,mode: FileMode.append);
-    print("ファイルへの書き込みが終了しました。");
-    }catch(e){
-      print("ファイル出力でエラーが発生しました。 $e");
-    }
   }
 }

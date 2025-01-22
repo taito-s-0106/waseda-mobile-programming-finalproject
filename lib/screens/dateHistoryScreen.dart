@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
-
+import 'package:finalproject/dao/csvFileDao.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -19,7 +16,7 @@ class _DateHistoryState extends State<DateHistory> {
   int sum = 0;
   DateTime dateTime = DateTime.now();
   String _formattedDate = DateFormat("yyyy年MM月dd日").format(DateTime.now());
-  Future<List<List<String>>> allInfo = _readFromCsv();
+  Future<List<List<String>>> allInfo = FileDao.readFromCsv();
   List<List<String>> matchedInfo = [];
 
   _datePicker(BuildContext context) async {
@@ -150,7 +147,7 @@ class _DateHistoryState extends State<DateHistory> {
   }
 
   void _initializeData() async {
-  List<List<String>> info = await _readFromCsv();
+  List<List<String>> info = await FileDao.readFromCsv();
   setState(() {
     allInfo = Future.value(info);
     matchedInfo = _matchInfo(info, dateTime);
@@ -183,30 +180,4 @@ class _DateHistoryState extends State<DateHistory> {
   }
 }
 
-Future<List<List<String>>> _readFromCsv() async {
-  List<List<String>> data = [];
 
-  // final directory = await getApplicationDocumentsDirectory();
-  // final filePath = "${directory.path}/houseHoldAccount.csv";
-
-  try {
-    final file = File(
-        "/Users/taito/waseda2024/finalproject/lib/resources/houseHoldAccount.csv");
-
-    if (await file.exists()) {
-      List<String> lines = await file.readAsLines(encoding: utf8);
-
-      for (String line in lines) {
-        List<String> row = line.split(",");
-        data.add(row);
-      }
-      return data;
-    } else {
-      print("ファイルが見つかりません。");
-      return [];
-    }
-  } catch (e) {
-    print("ファイル読み込みでエラーが発生しました。 $e");
-    return [];
-  }
-}

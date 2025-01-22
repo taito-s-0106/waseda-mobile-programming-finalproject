@@ -1,6 +1,5 @@
 import 'package:finalproject/screens/contentsInfoScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 
 class DateInfoScreen extends StatefulWidget {

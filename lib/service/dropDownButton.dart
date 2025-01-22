@@ -37,11 +37,8 @@ class _DropdownButtonState extends State<DropdownButtonMenu> {
       setState((){
         selectedValue = value!;
       });
-      if(widget.onChanged != null)
-      {
-        widget.onChanged!(selectedValue);
-      }
-     },
+        widget.onChanged(selectedValue);
+     }
      );
   }
   }

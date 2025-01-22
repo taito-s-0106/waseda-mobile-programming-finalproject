@@ -1,6 +1,5 @@
 import 'package:finalproject/screens/dateInfoScreen.dart';
 import 'package:finalproject/screens/dateHistoryScreen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -64,8 +63,8 @@ class Home extends StatelessWidget {
                     return DateInfoScreen();
                   }));
                 },
-                child: Text("新規入力"),
                 style: ButtonStyle(),
+                child: Text("新規入力"),
               ),
             ),
             SizedBox(
@@ -81,8 +80,8 @@ class Home extends StatelessWidget {
                     return DateHistory();
                   }));
                 },
-                child: Text("履歴確認"),
                 style: ButtonStyle(),
+                child: Text("履歴確認"),
               ),
               ),
           ]),
