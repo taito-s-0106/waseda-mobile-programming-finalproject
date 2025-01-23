@@ -13,7 +13,6 @@ class _DateHistoryState extends State<DateHistory> {
   static final _dateFormatter = DateFormat("yyyy年MM月dd日");
 
   String category = "";
-  int sum = 0;
   DateTime dateTime = DateTime.now();
   String _formattedDate = DateFormat("yyyy年MM月dd日").format(DateTime.now());
   Future<List<List<String>>> allInfo = FileDao.readFromCsv();
@@ -63,6 +62,20 @@ class _DateHistoryState extends State<DateHistory> {
             SizedBox(
               width: 50,
               height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("合計"),
+                SizedBox(
+                  width: 50,
+                ),
+                Text("${_calcDateSum(matchedInfo)}円")
+              ],
+            ),
+            SizedBox(
+              width: 100,
+              height: 30,
             ),
             Table(
               border: TableBorder.all(color: Colors.blue),
@@ -129,7 +142,7 @@ class _DateHistoryState extends State<DateHistory> {
                               Container(
                                 height: 30,
                                 color: const Color.fromARGB(255, 137, 213, 248),
-                                child: Center(child: Text("${row[2]}")),
+                                child: Center(child: Text("${row[2]}円")),
                               ),
                             ],
                           ),
@@ -140,6 +153,11 @@ class _DateHistoryState extends State<DateHistory> {
                 },
               ),
             ),
+            SizedBox(
+              width: 100,
+              height: 50,
+            ),
+          
           ],
         ),
       ),
@@ -178,6 +196,15 @@ class _DateHistoryState extends State<DateHistory> {
     }
     return matchedInfo;
   }
+
+  int _calcDateSum(List<List<String>> matched){
+  int dateSum = 0;
+
+    for (List<String> data in matched) {
+      int num = int.parse(data[2]);
+      dateSum += num;
+    }
+
+    return dateSum;
+  }
 }
-
-
